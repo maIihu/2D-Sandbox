@@ -1,35 +1,36 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Tilemaps;
 
 public class ChunkManager : MonoBehaviour
 {
-    public int chunkSize = 16;              // Kích thước mỗi chunk
-    public int viewDistance = 3;            // Khoảng cách tầm nhìn
-    public Transform player;                // Người chơi hoặc camera
-    public MapRenderer mapRenderer;         // Tham chiếu đến MapRenderer
+    public int chunkSize = 16;             
+    public int viewDistance = 2;          
+    public Transform player;              
+    public MapRenderer mapRenderer;       
     private Vector3Int currentChunkPosition;
-    private Dictionary<Vector3Int, GameObject> chunkObjects = new Dictionary<Vector3Int, GameObject>(); // Lưu các GameObject chunk
+    private Dictionary<Vector3Int, GameObject> chunkObjects = new Dictionary<Vector3Int, GameObject>();
+    public float limit_y = 100;
 
     void Start()
     {
-        currentChunkPosition = Vector3Int.zero; // Vị trí bắt đầu của người chơi
-        GenerateMap(currentChunkPosition);      // Tạo map ban đầu
+        currentChunkPosition = Vector3Int.zero; 
+        GenerateMap(currentChunkPosition);     
+        
     }
 
     void Update()
     {
-        // Cập nhật vị trí chunk mỗi khi người chơi di chuyển
         Vector3Int playerChunkPosition = GetPlayerChunkPosition();
         if (playerChunkPosition != currentChunkPosition)
         {
             currentChunkPosition = playerChunkPosition;
-            GenerateMap(currentChunkPosition);  // Tạo lại các chunk xung quanh người chơi
+            GenerateMap(currentChunkPosition);  
         }
     }
 
     Vector3Int GetPlayerChunkPosition()
     {
-        // Tính toán chunk vị trí của người chơi, chia theo kích thước chunkSize
         return new Vector3Int(
             Mathf.FloorToInt(player.position.x / chunkSize) * chunkSize,
             Mathf.FloorToInt(player.position.y / chunkSize) * chunkSize,
@@ -37,48 +38,65 @@ public class ChunkManager : MonoBehaviour
         );
     }
 
-    void GenerateMap(Vector3Int centerChunk)
+    void GenerateMap(Vector3Int playerPos)
     {
-        // Tạo và ẩn các chunk trong phạm vi nhìn thấy
-        List<Vector3Int> chunksToRemove = new List<Vector3Int>();
+        int width = 10;  
+        int depth = 5;  
 
-        for (int x = -viewDistance; x <= viewDistance; x++)
+        for (int x = -width / 2; x < width / 2; x++)
         {
-            for (int y = -viewDistance; y <= viewDistance; y++)
+            for (int y = 0; y < depth; y++)
             {
-                Vector3Int chunkPosition = new Vector3Int(centerChunk.x + x * chunkSize, centerChunk.y + y * chunkSize, 0);
+                // Chỉ tạo chunk ở bên dưới nhân vật
+                Vector3Int chunkPosition = new Vector3Int(playerPos.x + x * chunkSize, playerPos.y - y * chunkSize, 0);
 
-                if (!chunkObjects.ContainsKey(chunkPosition))
+                if (chunkPosition.y <= 100 - 16 && !chunkObjects.ContainsKey(chunkPosition))
                 {
                     GenerateChunk(chunkPosition);
                 }
                 else
                 {
-                    // Giữ lại chunk đã hiện
-                    chunkObjects[chunkPosition].SetActive(true);
+                    if(chunkObjects.ContainsKey(chunkPosition))
+                        chunkObjects[chunkPosition].SetActive(true);
                 }
             }
         }
 
-        // Xóa các chunk xa khỏi phạm vi tầm nhìn
         foreach (var chunk in chunkObjects)
         {
             Vector3Int chunkPosition = chunk.Key;
 
-            if (Vector3Int.Distance(centerChunk, chunkPosition) > viewDistance * chunkSize)
+            if (Mathf.Abs(chunkPosition.x - playerPos.x) > width * chunkSize / 2 ||
+                chunkPosition.y > playerPos.y || 
+                chunkPosition.y < playerPos.y - depth * chunkSize)
             {
-                chunk.Value.SetActive(false);  // Tắt chunk nếu ra ngoài tầm nhìn
+                chunk.Value.SetActive(false);  
             }
         }
     }
 
+
+    
     void GenerateChunk(Vector3Int chunkPosition)
     {
-        GameObject chunkObject = new GameObject("Chunk_" + chunkPosition);
-        chunkObject.SetActive(true); // Bật chunk khi tạo
-        chunkObjects[chunkPosition] = chunkObject;
-
-        // Tạo và gắn các tile vào chunk
-        mapRenderer.RenderChunk(chunkPosition); // Lệnh vẽ chunk
+        GameObject gridObject = new GameObject("Grid_" + chunkPosition);
+        gridObject.transform.SetParent(this.transform);
+        gridObject.AddComponent<Grid>();
+        gridObject.transform.position = new Vector3(chunkPosition.x, chunkPosition.y, 0);
+        
+        GameObject tilemapObject = new GameObject("Tilemap_" + chunkPosition);
+        tilemapObject.transform.parent = gridObject.transform;
+        
+        Tilemap tilemap = tilemapObject.AddComponent<Tilemap>();
+        tilemapObject.AddComponent<TilemapRenderer>();
+        
+        chunkObjects[chunkPosition] = gridObject;
+        
+        mapRenderer.RenderChunk(chunkPosition, tilemap);
+        //tilemapObject.transform.position = new Vector3(chunkPosition.x, chunkPosition.y, 0);
     }
+
+
+
+
 }

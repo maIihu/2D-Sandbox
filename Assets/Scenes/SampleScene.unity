@@ -328,7 +328,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 10, y: 100, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -406,7 +406,7 @@ Transform:
   m_GameObject: {fileID: 2084546124}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34.253716, y: 54.223698, z: -0.5524254}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -424,7 +424,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94bda47a1900e8b45b29ec982f4141d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 272041387}
   groundTile: {fileID: 11400000, guid: 6f5a4e356ddab114c841522b71aaaa7f, type: 2}
   waterTile: {fileID: 11400000, guid: b3ef972aa74389c49a4c0674ef7735a1, type: 2}
 --- !u!114 &2084546128
@@ -443,6 +442,7 @@ MonoBehaviour:
   viewDistance: 3
   player: {fileID: 519420032}
   mapRenderer: {fileID: 2084546127}
+  limit_y: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
