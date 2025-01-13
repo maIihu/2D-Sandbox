@@ -344,11 +344,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44162ea718f43b4cb0e5157cabf6017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raycastPoint: {fileID: 1172301808}
-  castDistance: 1
   layer:
     serializedVersion: 2
     m_Bits: 1024
+  treeTile: {fileID: 11400000, guid: f73ae275aabfffd49841f3e86fa7eb9c, type: 2}
 --- !u!1 &272041383
 GameObject:
   m_ObjectHideFlags: 0

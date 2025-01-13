@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -26,7 +27,9 @@ public class TilemapController : MonoBehaviour
 
         this.gameObject.layer = LayerMask.NameToLayer("LayerTilemap");
     }
-    
 
-    
+    private void Update()
+    {
+        
+    }
 }

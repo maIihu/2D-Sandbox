@@ -6,10 +6,13 @@ public class ChunkManager : MonoBehaviour
 {
     public int chunkSize = 16;             
     public Transform player;              
-    public MapRenderer mapRenderer;       
+    public MapRenderer mapRenderer;   
+    
     private Vector3Int currentChunkPosition;
     private Dictionary<Vector3Int, GameObject> chunkObjects = new Dictionary<Vector3Int, GameObject>();
-
+    
+    private List<TilemapInfo> tilemaps = new List<TilemapInfo>();
+    
     void Start()
     {
         currentChunkPosition = Vector3Int.zero; 
@@ -86,6 +89,13 @@ public class ChunkManager : MonoBehaviour
         
         mapRenderer.RenderChunk(chunkPosition, tilemap);
         //tilemapObject.transform.position = new Vector3(chunkPosition.x, chunkPosition.y, 0);
+        
+        tilemaps.Add(new TilemapInfo(tilemap, chunkPosition.x));
+    }
+    
+    public List<TilemapInfo> GetTilemaps()
+    {
+        return tilemaps; 
     }
     
 }
