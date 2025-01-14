@@ -65,7 +65,7 @@ public class BuildController : MonoBehaviour
                     TileBase tile = tilemap.GetTile(cellPos);
                     if (tile != null)
                     {
-                        if (tile.name == "tree")
+                        if (tile == treeTile)
                         {
                             tilemap.SetTile(cellPos, null);
                         }

@@ -9,6 +9,7 @@ public class TilemapController : MonoBehaviour
     void Start()
     {
         tilemap = GetComponent<Tilemap>();
+        this.gameObject.tag = "Ground";
         if (tilemap == null)
         {
             Debug.LogError("Tilemap component not found on this GameObject!");
