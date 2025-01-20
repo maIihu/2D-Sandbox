@@ -12,13 +12,13 @@ public class PlayerMovement : MonoBehaviour
     
     private Rigidbody2D _rb;
     private SpriteRenderer _sp;
-    private Animator _ani;
+    private Animator _anim;
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _sp = GetComponent<SpriteRenderer>();
-        _ani = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -26,7 +26,6 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("Ground"))
         {
             onGround = true;
-            Debug.Log("1");
         }
     }
 
@@ -35,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("Ground"))
         {
             onGround = false;
-            Debug.Log("12");
         }
     }
 
@@ -63,6 +61,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _ani.SetFloat("horizontal", horizontal);
+        _anim.SetFloat("horizontal", horizontal);
+        if (Input.GetMouseButton(0))
+        {
+            _anim.SetTrigger("attack");
+        }
     }
 }

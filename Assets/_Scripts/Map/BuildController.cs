@@ -12,6 +12,8 @@ public class BuildController : MonoBehaviour
     public TileBase treeTile;
     public int chunkSize = 16;
     public List<TilemapInfo> Tilemaps;
+
+    public GameObject tileDrop;
     
     void Start()
     {
@@ -68,6 +70,7 @@ public class BuildController : MonoBehaviour
                         if (tile == treeTile)
                         {
                             tilemap.SetTile(cellPos, null);
+                            Instantiate(tileDrop, cellPos, Quaternion.identity);
                         }
                     }
                 }

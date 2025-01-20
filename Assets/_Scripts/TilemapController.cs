@@ -9,6 +9,10 @@ public class TilemapController : MonoBehaviour
     void Start()
     {
         tilemap = GetComponent<Tilemap>();
+        if (transform.parent != null)
+        {
+            transform.position = transform.parent.position;
+        }
         this.gameObject.tag = "Ground";
         if (tilemap == null)
         {
@@ -17,7 +21,6 @@ public class TilemapController : MonoBehaviour
         }
 
         TilemapCollider2D tileCol = this.gameObject.AddComponent<TilemapCollider2D>();
-        tileCol.usedByComposite = true;
 
         CompositeCollider2D tileCom = this.gameObject.AddComponent<CompositeCollider2D>();
         
@@ -28,9 +31,5 @@ public class TilemapController : MonoBehaviour
 
         this.gameObject.layer = LayerMask.NameToLayer("LayerTilemap");
     }
-
-    private void Update()
-    {
-        
-    }
+    
 }

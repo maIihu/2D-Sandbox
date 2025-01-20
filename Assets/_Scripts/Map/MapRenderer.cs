@@ -52,7 +52,7 @@ public class MapRenderer : MonoBehaviour
                     tile = dirtTile;
                 }
             
-                Vector3Int tilePosition = new Vector3Int(chunkPosition.x + x, chunkPosition.y + y, 0);
+                Vector3Int tilePosition = new Vector3Int(x, chunkPosition.y + y, 0);
                 tilemap.SetTile(tilePosition, tile);
                 
                 if (y == groundHeight && tile == dirtSurfaceTile)
@@ -63,7 +63,7 @@ public class MapRenderer : MonoBehaviour
                         int trunkHeight = Random.Range(3, 8);
                         for (int i = 0; i < trunkHeight; i++)
                         {
-                            Vector3Int treePosition = new Vector3Int(chunkPosition.x + x, chunkPosition.y + y + 1 + i, 0);
+                            Vector3Int treePosition = new Vector3Int(x, chunkPosition.y + y + 1 + i, 0);
                             tilemap.SetTile(treePosition, treeTile);
                         }
                         
