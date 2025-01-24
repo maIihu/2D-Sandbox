@@ -6,7 +6,8 @@ using UnityEngine;
 public class TileDropController : MonoBehaviour
 {
     public float destroyTime;
-
+    public ItemClass item;
+    
     private void Start()
     {
         StartCoroutine(DestroyAfterTime(10f));
@@ -17,7 +18,8 @@ public class TileDropController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             StopCoroutine(DestroyAfterTime(10f));
-            Destroy(this.gameObject);
+            if(other.GetComponent<Inventory>().AddItem(item));
+                Destroy(this.gameObject);
         }
     }
 

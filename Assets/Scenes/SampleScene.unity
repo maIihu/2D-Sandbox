@@ -1521,7 +1521,7 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 1024
-  treeTile: {fileID: 11400000, guid: 6120f7b31a0aa584087ddf65df38bef4, type: 2}
+  treeTile: {fileID: 0}
   chunkSize: 16
   tileDrop: {fileID: 1076288361743951653, guid: c0b25daba863f564fa116e58a80102bb, type: 3}
 --- !u!4 &5370649852442746531

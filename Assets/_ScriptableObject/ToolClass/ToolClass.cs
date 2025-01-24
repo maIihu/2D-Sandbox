@@ -7,4 +7,5 @@ public class ToolClass : ScriptableObject
 {
     public string toolName;
     public Sprite toolSprite;
+    public ItemClass.ToolType toolType;
 }

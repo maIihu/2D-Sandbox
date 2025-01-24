@@ -38,6 +38,7 @@ public class ItemClass
         }
 
         isStackable = true;
+        itemType = ItemType.block;
     }
 
     public ItemClass(ToolClass toolClass)
@@ -45,6 +46,8 @@ public class ItemClass
         this.name = toolClass.name;
         this.sprite = toolClass.toolSprite;
         isStackable = false;
+        itemType = ItemType.tool;
+        toolType = toolClass.toolType;
     }
     
 }

@@ -46,7 +46,7 @@ public class MapRenderer : MonoBehaviour
                 Vector3Int tilePosition = new Vector3Int(x, chunkPosition.y + y, 0);
                 tilemap.SetTile(tilePosition, tile);
                 
-                if (y == groundHeight && tile == tileSet.dirtGrassTile)
+                if (y == groundHeight && tile == tileSet.dirtGrassTile.tileSprite)
                 {
                     float treeChance = Random.value;
                     if (treeChance < treeProbability)

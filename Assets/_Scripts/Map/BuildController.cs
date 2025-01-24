@@ -9,7 +9,7 @@ public class BuildController : MonoBehaviour
     
     private RaycastHit2D hit;
     
-    public TileBase treeTile;
+    public TileClass treeTile;
     public int chunkSize = 16;
     public List<TilemapInfo> Tilemaps;
 
@@ -43,7 +43,7 @@ public class BuildController : MonoBehaviour
             
                 if (tilemap.GetTile(cellPos) == null)
                 {
-                    tilemap.SetTile(cellPos, treeTile);
+                    tilemap.SetTile(cellPos, treeTile.tileSprite);
                 }
                 
             }
@@ -67,11 +67,13 @@ public class BuildController : MonoBehaviour
                     TileBase tile = tilemap.GetTile(cellPos);
                     if (tile != null)
                     {
-                        if (tile == treeTile)
+                        if (tile == treeTile.tileSprite)
                         {
                             tilemap.SetTile(cellPos, null);
                             Vector3 worldPos = tilemap.CellToWorld(cellPos) + tilemap.tileAnchor; // chuyển qua tọa độ thế giới
-                            Instantiate(tileDrop, worldPos, Quaternion.identity);
+                            GameObject newTileDrop = Instantiate(tileDrop, worldPos, Quaternion.identity);
+                            ItemClass itemDrop = new ItemClass(treeTile);
+                            newTileDrop.GetComponent<TileDropController>().item = itemDrop;
                         }
                     }
                 }
