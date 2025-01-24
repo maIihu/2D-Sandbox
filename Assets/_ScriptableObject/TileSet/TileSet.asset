@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb7817334df4edd843903924ecf0bde, type: 3}
+  m_Name: TileSet
+  m_EditorClassIdentifier: 
+  emptyTile: {fileID: 11400000, guid: 6dfdd38716ded424fab7c2516dc0ad19, type: 2}
+  dirtGrassTile: {fileID: 11400000, guid: 94f073bc0cdb8134db1f5b5ffa30646f, type: 2}
+  dirtTile: {fileID: 11400000, guid: 1a993d0fa1b20a24aaaebf7d503dc4cf, type: 2}
+  trunkTile: {fileID: 11400000, guid: 1c1e54a6ee7d24e4fbc62fa62c68e0f9, type: 2}
+  leaveTile: {fileID: 11400000, guid: e583737c47f9d20449fb2956b519693c, type: 2}

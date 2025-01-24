@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class MapRenderer : MonoBehaviour
 {
-    public TileBase emptyTile;
-    public TileBase dirtSurfaceTile;
-    public TileBase dirtTile;
-    public TileBase treeTile;  
+
+    public TileSet tileSet;
     
     public int height = 100;
     public int width = 16;
@@ -36,36 +35,41 @@ public class MapRenderer : MonoBehaviour
                 float noiseValue = Mathf.PerlinNoise((x + chunkPosition.x) / caveScale + seed, (y + chunkPosition.y) / caveScale + seed);
             
                 if (y == 0)
-                {
-                    tile = dirtTile;
-                }
+                    tile = tileSet.dirtTile.tileSprite;
                 else if (noiseValue < caveThreshold)
-                {
-                    tile = emptyTile;
-                }
+                    tile = tileSet.emptyTile.tileSprite;
                 else if (y == groundHeight)
-                {
-                    tile = dirtSurfaceTile;
-                }
+                    tile = tileSet.dirtGrassTile.tileSprite;
                 else
-                {
-                    tile = dirtTile;
-                }
+                    tile = tileSet.dirtTile.tileSprite;
             
                 Vector3Int tilePosition = new Vector3Int(x, chunkPosition.y + y, 0);
                 tilemap.SetTile(tilePosition, tile);
                 
-                if (y == groundHeight && tile == dirtSurfaceTile)
+                if (y == groundHeight && tile == tileSet.dirtGrassTile)
                 {
                     float treeChance = Random.value;
                     if (treeChance < treeProbability)
                     {
-                        int trunkHeight = Random.Range(3, 8);
+                        int trunkHeight = Random.Range(4, 6);
+                        // Thân cây
                         for (int i = 0; i < trunkHeight; i++)
                         {
                             Vector3Int treePosition = new Vector3Int(x, chunkPosition.y + y + 1 + i, 0);
-                            tilemap.SetTile(treePosition, treeTile);
+                            tilemap.SetTile(treePosition, tileSet.trunkTile.tileSprite);
                         }
+                        // Lá cây
+                        for (int j = trunkHeight; j < 3 + trunkHeight; j++)
+                        {
+                            Vector3Int leavePos = new Vector3Int(x, chunkPosition.y + y + j, 0);
+                            tilemap.SetTile(leavePos, tileSet.leaveTile.tileSprite);
+                        }
+                        // Tán cây trái
+                        tilemap.SetTile(new Vector3Int(x-1, chunkPosition.y + y + trunkHeight, 0), tileSet.leaveTile.tileSprite);
+                        tilemap.SetTile(new Vector3Int(x-1, chunkPosition.y + y + trunkHeight+1, 0), tileSet.leaveTile.tileSprite);
+                        // Tán cây phải
+                        tilemap.SetTile(new Vector3Int(x+1, chunkPosition.y + y + trunkHeight, 0), tileSet.leaveTile.tileSprite);
+                        tilemap.SetTile(new Vector3Int(x+1, chunkPosition.y + y + trunkHeight+1, 0), tileSet.leaveTile.tileSprite);
                         
                     }
                 }
@@ -73,5 +77,9 @@ public class MapRenderer : MonoBehaviour
         }
     }
 
+    private void RenderChunk()
+    {
+        
+    }
     
 }

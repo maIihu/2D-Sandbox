@@ -63,14 +63,15 @@ public class BuildController : MonoBehaviour
                 Tilemap tilemap = hit.collider.GetComponent<Tilemap>();
                 if (tilemap)
                 {
-                    Vector3Int cellPos = tilemap.WorldToCell(mouseWorldPos);
+                    Vector3Int cellPos = tilemap.WorldToCell(mouseWorldPos); // tọa độ lươới
                     TileBase tile = tilemap.GetTile(cellPos);
                     if (tile != null)
                     {
                         if (tile == treeTile)
                         {
                             tilemap.SetTile(cellPos, null);
-                            Instantiate(tileDrop, cellPos, Quaternion.identity);
+                            Vector3 worldPos = tilemap.CellToWorld(cellPos) + tilemap.tileAnchor; // chuyển qua tọa độ thế giới
+                            Instantiate(tileDrop, worldPos, Quaternion.identity);
                         }
                     }
                 }

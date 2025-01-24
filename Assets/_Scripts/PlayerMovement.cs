@@ -13,12 +13,16 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _sp;
     private Animator _anim;
+    private Inventory _inven;
+
+    private bool inventoryShowing = false;
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _sp = GetComponent<SpriteRenderer>();
         _anim = GetComponent<Animator>();
+        _inven = GetComponent<Inventory>();
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -66,5 +70,11 @@ public class PlayerMovement : MonoBehaviour
         {
             _anim.SetTrigger("attack");
         }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            inventoryShowing = !inventoryShowing;
+        }
+        _inven.inventoryUI.SetActive(inventoryShowing);
     }
 }

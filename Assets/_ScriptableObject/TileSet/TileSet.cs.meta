@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1fb7817334df4edd843903924ecf0bde
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - emptyTile: {instanceID: 0}
+  - dirtSurfaceTile: {instanceID: 0}
+  - dirtTile: {instanceID: 0}
+  - treeTile: {instanceID: 0}
+  - leaveTile: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
