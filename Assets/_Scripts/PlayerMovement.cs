@@ -13,16 +13,19 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private SpriteRenderer _sp;
     private Animator _anim;
-    private Inventory _inven;
-
+    private Inventory _invent;
+    
     private bool inventoryShowing = false;
+    
+    public GameObject hotbarSelector;
+    private int selectedIndex = 0;
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _sp = GetComponent<SpriteRenderer>();
         _anim = GetComponent<Animator>();
-        _inven = GetComponent<Inventory>();
+        _invent = GetComponent<Inventory>();
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -75,6 +78,19 @@ public class PlayerMovement : MonoBehaviour
         {
             inventoryShowing = !inventoryShowing;
         }
-        _inven.inventoryUI.SetActive(inventoryShowing);
+        _invent.inventoryUI.SetActive(inventoryShowing);
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            if (selectedIndex < _invent.inventoryWidth-1)
+                selectedIndex++;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            if (selectedIndex > 0)
+                selectedIndex--;
+        }
+
+        hotbarSelector.transform.position = _invent.hotbarUISlot[selectedIndex].transform.position;
     }
 }
