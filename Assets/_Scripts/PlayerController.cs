@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public bool onGround;
@@ -19,6 +20,10 @@ public class PlayerMovement : MonoBehaviour
     
     public GameObject hotbarSelector;
     private int selectedIndex = 0;
+    
+    public ItemClass itemSelected = null;
+
+    private bool hit;
     
     private void Awake()
     {
@@ -46,10 +51,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-         horizontal = Input.GetAxis("Horizontal");
+        horizontal = Input.GetAxis("Horizontal");
         float jump = Input.GetAxisRaw("Jump");
         float vertical = Input.GetAxisRaw("Vertical");
-
+        hit = Input.GetMouseButton(0);
+        
+        
         Vector2 movement = new Vector2(horizontal * moveSpeed, _rb.velocity.y);
         
         if (horizontal > 0)
@@ -69,10 +76,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         _anim.SetFloat("horizontal", horizontal);
-        if (Input.GetMouseButton(0))
-        {
-            _anim.SetTrigger("attack");
-        }
+        _anim.SetBool("hit", hit);
 
         if (Input.GetKeyDown(KeyCode.B))
         {
@@ -90,7 +94,25 @@ public class PlayerMovement : MonoBehaviour
             if (selectedIndex > 0)
                 selectedIndex--;
         }
-
+        
         hotbarSelector.transform.position = _invent.hotbarUISlot[selectedIndex].transform.position;
+        try
+        {
+            itemSelected = _invent.inventorySlots[selectedIndex, _invent.inventoryHeight - 1].item;
+            if(itemSelected.tool)
+            {
+                this.transform.Find("Arm").transform.GetChild(0).GetComponent<SpriteRenderer>().sprite =
+                    itemSelected.itemSprite;
+            }
+            else
+            {
+                this.transform.GetChild(2).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
+            }
+        }
+        catch
+        {
+            itemSelected = null;
+        }
+        
     }
 }

@@ -24,30 +24,32 @@ public class ItemClass
     public TileClass tile;
     public ToolClass tool;
 
-    public string name;
-    public Sprite sprite;
+    public string itemName;
+    public Sprite itemSprite;
     public bool isStackable;
 
-    public ItemClass(TileClass tileBase)
+    public ItemClass(TileClass tileClass)
     {
-        this.name = tileBase.tileName;
+        this.itemName = tileClass.tileName;
 
-        if (tileBase.tileSprite is Tile tile)
+        if (tileClass.tileSprite is Tile tile)
         {
-            this.sprite = tile.sprite;
+            this.itemSprite = tile.sprite;
         }
 
         isStackable = true;
         itemType = ItemType.block;
+        this.tile = tileClass;
     }
 
     public ItemClass(ToolClass toolClass)
     {
-        this.name = toolClass.name;
-        this.sprite = toolClass.toolSprite;
+        this.itemName = toolClass.name;
+        this.itemSprite = toolClass.toolSprite;
         isStackable = false;
         itemType = ItemType.tool;
         toolType = toolClass.toolType;
+        this.tool = toolClass;
     }
     
 }
