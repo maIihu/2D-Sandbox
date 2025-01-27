@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     public ItemClass itemSelected = null;
 
     private bool hit;
+
+    public GameObject healthBar;
     
     private void Awake()
     {
@@ -31,6 +33,12 @@ public class PlayerController : MonoBehaviour
         _sp = GetComponent<SpriteRenderer>();
         _anim = GetComponent<Animator>();
         _invent = GetComponent<Inventory>();
+    }
+
+    private void Start()
+    {
+        Instantiate(healthBar, this.transform);
+        SelectedItem(selectedIndex);
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -86,33 +94,67 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
-            if (selectedIndex < _invent.inventoryWidth-1)
+            if (selectedIndex < _invent.inventoryWidth - 1)
+            {
                 selectedIndex++;
+                SelectedItem(selectedIndex);
+            }
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             if (selectedIndex > 0)
+            {
                 selectedIndex--;
+                SelectedItem(selectedIndex);
+            }
         }
         
-        hotbarSelector.transform.position = _invent.hotbarUISlot[selectedIndex].transform.position;
-        try
-        {
-            itemSelected = _invent.inventorySlots[selectedIndex, _invent.inventoryHeight - 1].item;
-            if(itemSelected.tool)
-            {
-                this.transform.Find("Arm").transform.GetChild(0).GetComponent<SpriteRenderer>().sprite =
-                    itemSelected.itemSprite;
-            }
-            else
-            {
-                this.transform.GetChild(2).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
-            }
-        }
-        catch
-        {
-            itemSelected = null;
-        }
         
     }
+
+    private void SelectedItem(int index)
+    {
+        ItemClass item = null;
+        hotbarSelector.transform.position = _invent.hotbarUISlot[index].transform.position;
+        Transform transformItem = this.transform.Find("Arm").transform.GetChild(0);
+         try
+         {
+             item = _invent.inventorySlots[index, _invent.inventoryHeight - 1].item;
+             
+             if(item.tool) // weapon
+             {
+                 transformItem.GetComponent<SpriteRenderer>().sprite =
+                     item.itemSprite;
+                 PolygonCollider2D collider = transformItem.GetComponent<PolygonCollider2D>();
+                 if (collider != null)
+                 {
+                     Destroy(collider);
+                 }
+
+
+                 transformItem.AddComponent<PolygonCollider2D>();
+             }
+             else // block
+             {
+                 transformItem.GetComponent<SpriteRenderer>().sprite = null;
+                 if (transformItem.GetComponent<PolygonCollider2D>() != null)
+                 {
+                     Destroy(transformItem.GetComponent<PolygonCollider2D>());
+                 }
+             }
+
+
+         }
+         catch
+         {
+             item = null;
+             if (transformItem.GetComponent<PolygonCollider2D>() != null)
+             {
+                 Destroy(transformItem.GetComponent<PolygonCollider2D>());
+             }
+         }
+
+         itemSelected = item;
+    }
+    
 }

@@ -12,7 +12,7 @@ public class Inventory : MonoBehaviour
     public InventorySlot[] hotbarSlots;
     
     public GameObject[,] iventoryUISlots;
-    public GameObject[] hotbarUISlot;
+    public GameObject[] hotbarUISlot ;
     
     public int inventoryWidth;
     public int inventoryHeight;
@@ -29,14 +29,16 @@ public class Inventory : MonoBehaviour
     public TileClass TileClass;
     public ToolClass Sword;
 
-    public int stackLimit = 30;
-    
-    private void Start()
+    private void Awake()
     {
         inventorySlots = new InventorySlot[inventoryWidth, inventoryHeight];
         iventoryUISlots = new GameObject[inventoryWidth, inventoryHeight];
         hotbarSlots = new InventorySlot[inventoryWidth];
         hotbarUISlot = new GameObject[inventoryWidth];
+    }
+
+    private void Start()
+    {
         
         SetUpInventoryUI();
         UpdateInventoryUI();
@@ -132,11 +134,8 @@ public class Inventory : MonoBehaviour
         Vector2Int itemPos = Contain(item);
         if (itemPos != Vector2Int.one * -1)
         {
-            if (inventorySlots[itemPos.x, itemPos.y].quantity < stackLimit)
-            {
-                inventorySlots[itemPos.x, itemPos.y].quantity++;
-                added = true;
-            }
+            inventorySlots[itemPos.x, itemPos.y].quantity++;
+            added = true;
         }
         if (!added)
         {
@@ -190,7 +189,7 @@ public class Inventory : MonoBehaviour
                 inventorySlots[itemPos.x, itemPos.y] = null;
                 UpdateInventoryUI();
             }
-            Debug.Log("Hello");
+            //Debug.Log("Hello");
         }
     }
 }
