@@ -5,9 +5,16 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+    private bool hit;
+
+    private void Update()
+    {
+        hit = Input.GetMouseButton(0); 
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        if (hit && other.CompareTag("Enemy"))
         {
             Debug.Log("Hello");
         }

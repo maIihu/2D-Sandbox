@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     
     public ItemClass itemSelected = null;
 
-    private bool hit;
+    public bool hit;
 
     public GameObject healthBar;
     
@@ -130,9 +130,11 @@ public class PlayerController : MonoBehaviour
                  {
                      Destroy(collider);
                  }
-
-
-                 transformItem.AddComponent<PolygonCollider2D>();
+                 collider = transformItem.gameObject.AddComponent<PolygonCollider2D>();
+                 if (collider != null)
+                 {
+                     collider.isTrigger = true;
+                 }
              }
              else // block
              {
